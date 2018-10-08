@@ -63,7 +63,7 @@ Currently you can customize all visible texts and the main widget color by setti
 1. Talk to Telegram [@BotFather](https://telegram.me/botfather), create a new bot and get its API Token.
 
 2. Deploy this repo to your own chat server. 
-  - Clone it locally and install or if you use Heroku, fork this repository and point the new app to it.
+  - Clone it locally and install (via npm install) or, if you use Heroku, fork this repository and point the new app to it.
   - Set an .env variable named `TELEGRAM_TOKEN` with the value you got from @BotFather
 
 3. Point the bot webhook to your bot server by making a `GET` request to the following url
@@ -81,3 +81,23 @@ Currently you can customize all visible texts and the main widget color by setti
   <script id="intergram" type="text/javascript" src="<Server url>/js/widget.js"></script>
   ```
 6. :tada:
+
+#### Deploying on a HTTPS server
+
+In order to deploy Intergram on a HTTPS server, you should get the certificate and key files from your server and make some changes to your server.js file.
+
+Open `server.js` and change the following:
+
+1. Add the following line at the beggining of the file:
+    const fs = require('fs') // Required for reading the certificate and key files
+    let options = { key: fs.readFileSync("key.pem"), cert: fs.readFileSync("cert.crt") }; // Replace for the ubication of your .pem and .crt files - you can even copy them to the same directory
+    
+2. Change the following line
+
+    const http = require('http').Server(app);
+
+To
+
+    const http = require ('https').Server(options,app);
+
+3. :tada:
